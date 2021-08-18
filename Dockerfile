@@ -150,7 +150,7 @@ ENTRYPOINT ["tini", "-g", "--"]
 CMD ["start-notebook.sh"]
 
 # Copy local files as late as possible to avoid cache busting
-COPY resources/scripts/jupyter/start.sh resources/scripts/jupyter/start-notebook.sh resources/scripts/jupyter/start-singleuser.sh /usr/local/bin/
+COPY resources/scripts/jupyter/ /usr/local/bin/
 # Currently need to have both jupyter_notebook_config and jupyter_server_config to support classic and lab
 COPY resources/jupyter_notebook_config.py /etc/jupyter/
 
