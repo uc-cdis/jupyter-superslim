@@ -1,6 +1,6 @@
 # TL;DR
 
-A "slim" build of jupyter `scipy-notebook`.  Basically the same as `../jupyter/`, but without all the `Rlang` packages that make that image such a monster to build.
+A "slim" build of jupyter notebook images
 
 ## Run locally
 
