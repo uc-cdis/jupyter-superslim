@@ -154,6 +154,9 @@ COPY resources/scripts/jupyter/ /usr/local/bin/
 # Currently need to have both jupyter_notebook_config and jupyter_server_config to support classic and lab
 COPY resources/jupyter_notebook_config.py /etc/jupyter/
 
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
 # Fix permissions on /etc/jupyter as root
 USER root
 
