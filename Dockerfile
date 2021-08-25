@@ -58,7 +58,7 @@ ENV CONDA_DIR=/opt/conda \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
-    
+
 ENV PATH="${CONDA_DIR}/bin:${PATH}" \
     HOME="/home/${NB_USER}" \
     CONDA_VERSION="${conda_version}" \
@@ -153,6 +153,11 @@ CMD ["start-notebook.sh"]
 COPY resources/scripts/jupyter/ /usr/local/bin/
 # Currently need to have both jupyter_notebook_config and jupyter_server_config to support classic and lab
 COPY resources/jupyter_notebook_config.py /etc/jupyter/
+# Do not open notebooks in a new tab: https://github.com/jupyter/notebook/issues/4115
+COPY resources/custom.js /home/$NB_USER/.jupyter/custom/
+
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
 # Fix permissions on /etc/jupyter as root
 USER root
