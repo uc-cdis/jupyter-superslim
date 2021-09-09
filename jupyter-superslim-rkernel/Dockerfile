@@ -44,6 +44,7 @@ RUN apt-get update --yes && \
     sudo \
     locales \
     fonts-liberation \
+    vim \
     run-one && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
@@ -57,7 +58,8 @@ ENV CONDA_DIR=/opt/conda \
     NB_GID=${NB_GID} \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8
+    LANGUAGE=en_US.UTF-8 \
+    R_BASE_VERSION=4.1.0
 
 ENV PATH="${CONDA_DIR}/bin:${PATH}" \
     HOME="/home/${NB_USER}" \
@@ -125,7 +127,9 @@ RUN set -x && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
-# Install Jupyter Notebook, Lab, and Hub
+# Install Jupyter Notebook, Lab, Hub and R packages
+# R packages including IRKernel which gets installed globally.
+# See https://github.com/rocker-org/rocker/blob/master/r-base/Dockerfile
 # Generate a notebook server config
 # Cleanup temporary files
 # Correct permissions
@@ -134,8 +138,28 @@ RUN set -x && \
 RUN conda install --quiet --yes \
     'notebook' \
     'jupyterhub' \
-    'jupyterlab' && \
-    conda clean --all -f -y && \
+    'jupyterlab' \
+    'rpy2' \
+    "r-base=$R_BASE_VERSION" \
+    'r-irkernel' \
+    'r-plyr' \
+    'r-devtools' \
+    'r-tidyverse' \
+    'r-shiny' \
+    'r-rmarkdown' \
+    'r-forecast' \
+    'r-rsqlite' \
+    'r-reshape2' \
+    'r-nycflights13' \
+    'r-caret' \
+    'r-rcurl' \
+    'r-crayon' \
+    'r-randomforest' \
+    'r-rmysql' \
+    'r-gplots' \
+    'r-gtools' \
+    'r-catools' \
+    && conda clean --all -f -y && \
     npm cache clean --force && \
     jupyter notebook --generate-config && \
     jupyter lab clean && \
