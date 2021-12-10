@@ -40,6 +40,7 @@ RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     tini \
     wget \
+    curl \
     git \
     ca-certificates \
     sudo \
