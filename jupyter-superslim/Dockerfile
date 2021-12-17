@@ -41,6 +41,7 @@ RUN apt-get update --yes && \
     tini \
     wget \
     git \
+    curl \
     ca-certificates \
     sudo \
     locales \
