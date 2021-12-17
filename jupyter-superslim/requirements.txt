@@ -1,4 +1,4 @@
-git+https://github.com/uc-cdis/gen3sdk-python.git@chore/version
+gen3
 cdiserrors
 pandas
 numpy
