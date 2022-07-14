@@ -93,10 +93,6 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
 USER ${NB_UID}
 ARG PYTHON_VERSION=default
 
-# Setup work directory for backward-compatibility
-RUN mkdir "/home/${NB_USER}/work" && \
-    fix-permissions "/home/${NB_USER}"
-
 # Install conda as jovyan and check the sha256 sum provided on the download site
 WORKDIR /tmp
 
