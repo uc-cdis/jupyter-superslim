@@ -47,6 +47,8 @@ RUN apt-get update --yes && \
     locales \
     fonts-liberation \
     vim \
+    libxml2-dev \
+    libudunits2-dev \
     run-one && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
