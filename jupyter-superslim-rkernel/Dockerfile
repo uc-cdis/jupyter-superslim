@@ -48,7 +48,15 @@ RUN apt-get update --yes && \
     fonts-liberation \
     vim \
     libxml2-dev \
+    libssl-dev \
+    libcurl4-openssl-dev \
+    libssh2-1-dev \
+    zlib1g-dev \
+    openssl \
+    gdebi-core \
+    libgsl* \
     libudunits2-dev \
+    libgs-dev \
     run-one && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
