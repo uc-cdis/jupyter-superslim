@@ -52,7 +52,6 @@ RUN apt-get update --yes && \
     libcurl4-openssl-dev \
     libssh2-1-dev \
     zlib1g-dev \
-    openssl \
     gdebi-core \
     libgsl* \
     libudunits2-dev \
