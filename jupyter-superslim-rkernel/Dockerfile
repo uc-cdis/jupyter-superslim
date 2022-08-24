@@ -47,15 +47,6 @@ RUN apt-get update --yes && \
     locales \
     fonts-liberation \
     vim \
-    libxml2-dev \
-    libssl-dev \
-    libcurl4-openssl-dev \
-    libssh2-1-dev \
-    zlib1g-dev \
-    gdebi-core \
-    libgsl* \
-    libudunits2-dev \
-    libgs-dev \
     run-one && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
@@ -70,7 +61,7 @@ ENV CONDA_DIR=/opt/conda \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
-    R_BASE_VERSION=4.1.0
+    R_BASE_VERSION=4.1.3
 
 ENV PATH="${CONDA_DIR}/bin:${PATH}" \
     HOME="/home/${NB_USER}" \
