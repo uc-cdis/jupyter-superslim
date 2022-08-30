@@ -22,7 +22,7 @@ USER root
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://github.com/conda-forge/miniforge/releases
 # Conda version
-ARG conda_version="4.14.0"
+ARG conda_version="4.10.3"
 # Miniforge installer patch version
 ARG miniforge_patch_number="3"
 # Package Manager and Python implementation to use (https://github.com/conda-forge/miniforge)
@@ -61,7 +61,7 @@ ENV CONDA_DIR=/opt/conda \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
-    R_BASE_VERSION=4.1.3
+    R_BASE_VERSION=4.1.0
 
 ENV PATH="${CONDA_DIR}/bin:${PATH}" \
     HOME="/home/${NB_USER}" \
