@@ -72,11 +72,16 @@ ENV PATH="${CONDA_DIR}/bin:${PATH}" \
 COPY resources/scripts/fix-permissions /usr/local/bin/fix-permissions
 RUN chmod a+rx /usr/local/bin/fix-permissions
 
+# Use overrides.json file to change the default settings
+RUN mkdir -p /opt/conda/share/jupyter/lab/settings
+COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
+
+
 # Enable prompt color in the skeleton .bashrc before creating the default NB_USER
 # hadolint ignore=SC2016
 RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc && \
-   # Add call to conda init script see https://stackoverflow.com/a/58081608/4413446
-   echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
+    # Add call to conda init script see https://stackoverflow.com/a/58081608/4413446
+    echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
 
 
 # Create NB_USER with name jovyan user with UID=1000 and in the 'users' group
@@ -103,7 +108,7 @@ RUN set -x && \
     miniforge_arch=$(uname -m) && \
     export miniforge_arch && \
     if [ "$miniforge_arch" == "aarm64" ]; then \
-      miniforge_arch="arm64"; \
+    miniforge_arch="arm64"; \
     fi; \
     miniforge_installer="${miniforge_python}-${miniforge_version}-Linux-${miniforge_arch}.sh" && \
     export miniforge_installer && \
