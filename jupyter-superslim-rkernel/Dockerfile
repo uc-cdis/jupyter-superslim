@@ -22,7 +22,7 @@ USER root
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://github.com/conda-forge/miniforge/releases
 # Conda version
-ARG conda_version="4.10.3"
+ARG conda_version="4.14.0"
 # Miniforge installer patch version
 ARG miniforge_patch_number="3"
 # Package Manager and Python implementation to use (https://github.com/conda-forge/miniforge)
@@ -48,7 +48,14 @@ RUN apt-get update --yes && \
     fonts-liberation \
     vim \
     libxml2-dev \
+    libssl-dev \
+    libcurl4-openssl-dev \
+    libssh2-1-dev \
+    zlib1g-dev \
+    gdebi-core \
+    libgsl* \
     libudunits2-dev \
+    libgs-dev
     run-one && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
