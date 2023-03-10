@@ -22,7 +22,7 @@ USER root
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://github.com/conda-forge/miniforge/releases
 # Conda version
-ARG conda_version="4.14.0"
+ARG conda_version="4.10.3"
 # Miniforge installer patch version
 ARG miniforge_patch_number="3"
 # Package Manager and Python implementation to use (https://github.com/conda-forge/miniforge)
@@ -47,15 +47,6 @@ RUN apt-get update --yes && \
     locales \
     fonts-liberation \
     vim \
-    libxml2-dev \
-    libssl-dev \
-    libcurl4-openssl-dev \
-    libssh2-1-dev \
-    zlib1g-dev \
-    gdebi-core \
-    libgsl* \
-    libudunits2-dev \
-    libgs-dev \
     run-one && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
@@ -81,11 +72,16 @@ ENV PATH="${CONDA_DIR}/bin:${PATH}" \
 COPY resources/scripts/fix-permissions /usr/local/bin/fix-permissions
 RUN chmod a+rx /usr/local/bin/fix-permissions
 
+# Use overrides.json file to change the default settings
+RUN mkdir -p /opt/conda/share/jupyter/lab/settings
+COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
+
+
 # Enable prompt color in the skeleton .bashrc before creating the default NB_USER
 # hadolint ignore=SC2016
 RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc && \
-   # Add call to conda init script see https://stackoverflow.com/a/58081608/4413446
-   echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
+    # Add call to conda init script see https://stackoverflow.com/a/58081608/4413446
+    echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
 
 
 # Create NB_USER with name jovyan user with UID=1000 and in the 'users' group
@@ -112,7 +108,7 @@ RUN set -x && \
     miniforge_arch=$(uname -m) && \
     export miniforge_arch && \
     if [ "$miniforge_arch" == "aarm64" ]; then \
-      miniforge_arch="arm64"; \
+    miniforge_arch="arm64"; \
     fi; \
     miniforge_installer="${miniforge_python}-${miniforge_version}-Linux-${miniforge_arch}.sh" && \
     export miniforge_installer && \

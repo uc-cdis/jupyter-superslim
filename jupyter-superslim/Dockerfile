@@ -74,8 +74,8 @@ RUN chmod a+rx /usr/local/bin/fix-permissions
 # Enable prompt color in the skeleton .bashrc before creating the default NB_USER
 # hadolint ignore=SC2016
 RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashrc && \
-   # Add call to conda init script see https://stackoverflow.com/a/58081608/4413446
-   echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
+    # Add call to conda init script see https://stackoverflow.com/a/58081608/4413446
+    echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
 
 
 # Create NB_USER with name jovyan user with UID=1000 and in the 'users' group
@@ -103,7 +103,7 @@ RUN set -x && \
     miniforge_arch=$(uname -m) && \
     export miniforge_arch && \
     if [ "$miniforge_arch" == "aarm64" ]; then \
-      miniforge_arch="arm64"; \
+    miniforge_arch="arm64"; \
     fi; \
     miniforge_installer="${miniforge_python}-${miniforge_version}-Linux-${miniforge_arch}.sh" && \
     export miniforge_installer && \
@@ -124,6 +124,10 @@ RUN set -x && \
     rm -rf "/home/${NB_USER}/.cache/yarn" && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
+
+# Use overrides.json file to change the default settings
+RUN mkdir -p /opt/conda/share/jupyter/lab/settings
+COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
 
 # Install Jupyter Notebook, Lab, and Hub
 # Generate a notebook server config
@@ -155,6 +159,7 @@ COPY resources/scripts/jupyter/ /usr/local/bin/
 COPY resources/jupyter_notebook_config.py /etc/jupyter/
 # Do not open notebooks in a new tab: https://github.com/jupyter/notebook/issues/4115
 COPY resources/custom.js /home/$NB_USER/.jupyter/custom/
+
 
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
