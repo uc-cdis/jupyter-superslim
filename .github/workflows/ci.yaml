@@ -16,7 +16,7 @@ jobs:
     name: Build Image and Push (jupyter-superslim)
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
-      DOCKERFILE_LOCATION: "./jupyter-superslim/Dcokerfile"
+      DOCKERFILE_LOCATION: "./jupyter-superslim/Dockerfile"
       DOCKERFILE_BUILD_CONTEXT: "./jupyter-superslim"
       OVERRIDE_REPO_NAME: "jupyter-superslim"
       USE_QUAY_ONLY: true
@@ -30,7 +30,7 @@ jobs:
     name: Build Image and Push (jupyter-superslim-r)
     uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
     with:
-      DOCKERFILE_LOCATION: "./jupyter-superslim-rkernel/Dcokerfile"
+      DOCKERFILE_LOCATION: "./jupyter-superslim-rkernel/Dockerfile"
       DOCKERFILE_BUILD_CONTEXT: "./jupyter-superslim-rkernel"
       OVERRIDE_REPO_NAME: "jupyter-superslim-r"
       USE_QUAY_ONLY: true
