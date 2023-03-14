@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    types: [opened, reopened]
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+
+jobs:
+
+  build_superslim_image:
+    name: Build Image and Push (jupyter-superslim)
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      DOCKERFILE_LOCATION: "./jupyter-superslim/Dcokerfile"
+      OVERRIDE_REPO_NAME: "jupyter-superslim"
+      USE_QUAY_ONLY: true
+    secrets:
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_ROBOT_TOKEN: ${{ secrets.QUAY_ROBOT_TOKEN }}
+
+  build_superslim_r_image:
+    name: Build Image and Push (jupyter-superslim-r)
+    uses: uc-cdis/.github/.github/workflows/image_build_push.yaml@master
+    with:
+      DOCKERFILE_LOCATION: "./jupyter-superslim-rkernel/Dcokerfile"
+      OVERRIDE_REPO_NAME: "jupyter-superslim-r"
+      USE_QUAY_ONLY: true
+    secrets:
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_ROBOT_TOKEN: ${{ secrets.QUAY_ROBOT_TOKEN }}
