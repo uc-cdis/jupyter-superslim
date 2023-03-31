@@ -126,8 +126,8 @@ RUN set -x && \
     fix-permissions "/home/${NB_USER}"
 
 # Use overrides.json file to change the default settings
-#RUN mkdir -p /opt/conda/share/jupyter/lab/settings
-#COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
+RUN mkdir -p /opt/conda/share/jupyter/lab/settings
+COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
 
 # Install Jupyter Notebook, Lab, and Hub
 # Generate a notebook server config
@@ -160,7 +160,7 @@ COPY resources/jupyter_notebook_config.py /etc/jupyter/
 # Do not open notebooks in a new tab: https://github.com/jupyter/notebook/issues/4115
 COPY resources/custom.js /home/$NB_USER/.jupyter/custom/
 
-
+RUN ipython kernel install
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
