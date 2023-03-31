@@ -126,8 +126,8 @@ RUN set -x && \
     fix-permissions "/home/${NB_USER}"
 
 # Use overrides.json file to change the default settings
-RUN mkdir -p /opt/conda/share/jupyter/lab/settings
-COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
+#RUN mkdir -p /opt/conda/share/jupyter/lab/settings
+#COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
 
 # Install Jupyter Notebook, Lab, and Hub
 # Generate a notebook server config
