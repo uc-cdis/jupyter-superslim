@@ -97,7 +97,7 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     fix-permissions "${CONDA_DIR}"
 
 USER ${NB_UID}
-ARG PYTHON_VERSION=default
+ARG PYTHON_VERSION=3.9.6
 
 # Install conda as jovyan and check the sha256 sum provided on the download site
 WORKDIR /tmp
@@ -183,6 +183,8 @@ COPY resources/jupyter_notebook_config.py /etc/jupyter/
 # Do not open notebooks in a new tab: https://github.com/jupyter/notebook/issues/4115
 COPY resources/custom.js /home/$NB_USER/.jupyter/custom/
 
+RUN ipython kernel install --user
+RUN conda install jupyterhub=2 jupyterhub-base=2 jupyter_server=1
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
