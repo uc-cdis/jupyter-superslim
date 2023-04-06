@@ -162,6 +162,7 @@ COPY resources/custom.js /home/$NB_USER/.jupyter/custom/
 
 RUN conda install jupyterhub=2 jupyterhub-base=2 jupyter_server=1
 RUN ipython kernel install
+RUN conda install -c conda-forge ipywidgets
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
