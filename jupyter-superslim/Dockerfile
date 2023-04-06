@@ -164,6 +164,7 @@ RUN ipython kernel install --user
 # RUN conda install jupyterhub=2 jupyterhub-base=2 jupyter_server=1
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
+RUN pip3 install jupyter_server_ydoc
 
 # Fix permissions on /etc/jupyter as root
 USER root
