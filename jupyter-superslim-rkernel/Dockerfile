@@ -97,7 +97,7 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     fix-permissions "${CONDA_DIR}"
 
 USER ${NB_UID}
-ARG PYTHON_VERSION=default
+ARG PYTHON_VERSION=3.9.6
 
 # Install conda as jovyan and check the sha256 sum provided on the download site
 WORKDIR /tmp
@@ -162,6 +162,9 @@ RUN conda install --quiet --yes \
     'r-gplots' \
     'r-gtools' \
     'r-catools' \
+    'jupyterhub=2' \
+    'jupyterhub-base=2' \
+    'jupyter_server=1' \
     && conda clean --all -f -y && \
     npm cache clean --force && \
     jupyter notebook --generate-config && \
