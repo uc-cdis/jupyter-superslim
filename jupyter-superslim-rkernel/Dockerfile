@@ -162,6 +162,9 @@ RUN conda install --quiet --yes \
     'r-gplots' \
     'r-gtools' \
     'r-catools' \
+    'jupyterhub=2' \
+    'jupyterhub-base=2' \
+    'jupyter_server=1' \
     && conda clean --all -f -y && \
     npm cache clean --force && \
     jupyter notebook --generate-config && \
@@ -184,7 +187,6 @@ COPY resources/jupyter_notebook_config.py /etc/jupyter/
 COPY resources/custom.js /home/$NB_USER/.jupyter/custom/
 
 RUN ipython kernel install --user
-RUN conda install jupyterhub=2 jupyterhub-base=2 jupyter_server=1
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 
