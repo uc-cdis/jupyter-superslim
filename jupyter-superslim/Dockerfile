@@ -160,11 +160,9 @@ COPY resources/jupyter_notebook_config.py /etc/jupyter/
 # Do not open notebooks in a new tab: https://github.com/jupyter/notebook/issues/4115
 COPY resources/custom.js /home/$NB_USER/.jupyter/custom/
 
-RUN ipython kernel install --user
-# RUN conda install jupyterhub=2 jupyterhub-base=2 jupyter_server=1
+RUN conda install jupyterhub=2 jupyterhub-base=2 jupyter_server=1
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
-RUN pip3 install jupyter_server_ydoc
 
 # Fix permissions on /etc/jupyter as root
 USER root
