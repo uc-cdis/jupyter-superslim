@@ -44,7 +44,9 @@ RUN apt-get update --yes && \
     git \
     ca-certificates \
     sudo \
+    libssl3 \
     locales \
+    openjdk-11-jdk \
     fonts-liberation \
     vim \
     run-one && \
@@ -172,6 +174,9 @@ RUN conda install --quiet --yes \
     rm -rf "/home/${NB_USER}/.cache/yarn" && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
+
+# try installing here
+RUN conda install -c bioconda nextflow
 
 EXPOSE 8888
 
