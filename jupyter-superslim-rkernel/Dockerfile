@@ -139,7 +139,7 @@ RUN set -x && \
 # Correct permissions
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
-RUN conda install --quiet --yes -c conda-forge \
+RUN conda install --quiet --yes \
     'notebook' \
     'jupyterhub' \
     'jupyterlab' \
@@ -175,7 +175,7 @@ RUN conda install --quiet --yes -c conda-forge \
     fix-permissions "/home/${NB_USER}"
 
 # try installing here
-RUN conda install -c bioconda nextflow
+# RUN conda install -c bioconda nextflow
 
 EXPOSE 8888
 
