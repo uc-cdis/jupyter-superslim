@@ -44,7 +44,6 @@ RUN apt-get update --yes && \
     git \
     ca-certificates \
     sudo \
-    libssl3 \
     locales \
     openjdk-11-jdk \
     fonts-liberation \
