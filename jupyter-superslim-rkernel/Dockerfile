@@ -45,13 +45,16 @@ RUN apt-get update --yes && \
     ca-certificates \
     sudo \
     locales \
-    openjdk-11-jdk \
     fonts-liberation \
     vim \
     run-one && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen
+
+# for nextflow
+RUN apt update && apt install default-jre && apt install default-jdk
+
 
 # Configure environment
 ENV CONDA_DIR=/opt/conda \
