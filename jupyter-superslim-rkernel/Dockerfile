@@ -53,7 +53,7 @@ RUN apt-get update --yes && \
     locale-gen
 
 # for nextflow
-RUN apt update && apt install default-jre && apt install default-jdk
+RUN apt-get update && apt-get install default-jre && apt-get install default-jdk
 
 
 # Configure environment
