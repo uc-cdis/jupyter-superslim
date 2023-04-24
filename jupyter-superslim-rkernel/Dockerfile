@@ -162,6 +162,9 @@ RUN conda install --quiet --yes \
     'r-gplots' \
     'r-gtools' \
     'r-catools' \
+    'jupyterhub=2' \
+    'jupyterhub-base=2' \
+    'jupyter_server=1' \
     && conda clean --all -f -y && \
     npm cache clean --force && \
     jupyter notebook --generate-config && \

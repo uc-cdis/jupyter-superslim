@@ -1,4 +1,5 @@
-gen3==4.13.0
+gen3==4.17.2
 cdiserrors
 pandas
 numpy
+jupyter_server_ydoc

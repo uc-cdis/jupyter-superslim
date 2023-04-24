@@ -138,8 +138,11 @@ COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
 RUN conda install --quiet --yes \
     'notebook' \
     'jupyterhub' \
-    'jupyterlab' && \
-    conda clean --all -f -y && \
+    'jupyterlab' \
+    'jupyterhub=2' \
+    'jupyterhub-base=2' \
+    'jupyter_server=1' \
+    && conda clean --all -f -y && \
     npm cache clean --force && \
     jupyter notebook --generate-config && \
     jupyter lab clean && \
