@@ -148,22 +148,20 @@ RUN conda install --quiet --yes \
     'r-crayon' \
     'r-devtools' \
     'r-e1071' \
-    'r-forecast' \
-    'r-hexbin' \
-    'r-htmltools' \
-    'r-htmlwidgets' \
+    #'r-forecast' \
+    'r-hexbin' \\
     'r-irkernel' \
     'r-nycflights13' \
     'r-randomforest' \
     'r-rcurl' \
     'r-rmarkdown' \
-    'r-rsqlite' \
+    #'r-rsqlite' \
     'r-shiny' \
     'r-tidymodels' \
     'r-tidyverse' \
     'rpy2' \
-    'r-plyr' \
-    'r-reshape2' \
+    #'r-plyr' \
+    #'r-reshape2' \
     'r-rmysql' \
     'r-gplots' \
     'r-gtools' \
