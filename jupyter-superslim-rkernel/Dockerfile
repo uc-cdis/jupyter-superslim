@@ -97,7 +97,7 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     fix-permissions "${CONDA_DIR}"
 
 USER ${NB_UID}
-ARG PYTHON_VERSION=default
+ARG PYTHON_VERSION=3.9.4
 
 # Install conda as jovyan and check the sha256 sum provided on the download site
 WORKDIR /tmp
