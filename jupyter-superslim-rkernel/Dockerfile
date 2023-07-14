@@ -143,20 +143,27 @@ RUN conda install --quiet --yes \
     'jupyterhub' \
     'jupyterlab' \
     "r-base=$R_BASE_VERSION" \
+    'r-base' \
     'r-caret' \
     'r-crayon' \
     'r-devtools' \
+    'r-e1071' \
     'r-forecast' \
+    'r-hexbin' \
+    'r-htmltools' \
+    'r-htmlwidgets' \
     'r-irkernel' \
     'r-nycflights13' \
     'r-randomforest' \
     'r-rcurl' \
     'r-rmarkdown' \
+    'r-rodbc' \
     'r-rsqlite' \
     'r-shiny' \
+    'r-tidymodels' \
     'r-tidyverse' \
-    #'rpy2' \
-    #'r-plyr' \
+    'rpy2' \
+    'r-plyr' \
     'r-reshape2' \
     'r-rmysql' \
     'r-gplots' \
