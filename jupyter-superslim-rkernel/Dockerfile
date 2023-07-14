@@ -149,7 +149,7 @@ RUN conda install --quiet --yes \
     'r-devtools' \
     'r-e1071' \
     #'r-forecast' \
-    'r-hexbin' \\
+    'r-hexbin' \
     'r-irkernel' \
     'r-nycflights13' \
     'r-randomforest' \
