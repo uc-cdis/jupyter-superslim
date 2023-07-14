@@ -97,7 +97,7 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     fix-permissions "${CONDA_DIR}"
 
 USER ${NB_UID}
-ARG PYTHON_VERSION=3.9.4
+ARG PYTHON_VERSION=default
 
 # Install conda as jovyan and check the sha256 sum provided on the download site
 WORKDIR /tmp
@@ -138,7 +138,8 @@ RUN set -x && \
 # Correct permissions
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
-RUN mamba install --quiet --yes \
+RUN conda install --quiet --yes \
+    'ipywidgets' \
     'notebook' \
     'jupyterhub' \
     'jupyterlab' \
