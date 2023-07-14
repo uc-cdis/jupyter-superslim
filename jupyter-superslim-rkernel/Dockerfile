@@ -157,7 +157,6 @@ RUN conda install --quiet --yes \
     'r-randomforest' \
     'r-rcurl' \
     'r-rmarkdown' \
-    'r-rodbc' \
     'r-rsqlite' \
     'r-shiny' \
     'r-tidymodels' \
