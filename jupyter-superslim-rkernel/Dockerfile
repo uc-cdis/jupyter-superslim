@@ -142,22 +142,22 @@ RUN conda install --quiet --yes \
     'notebook' \
     'jupyterhub' \
     'jupyterlab' \
-    'rpy2' \
     "r-base=$R_BASE_VERSION" \
-    'r-irkernel' \
-    'r-plyr' \
-    'r-devtools' \
-    'r-tidyverse' \
-    'r-shiny' \
-    'r-rmarkdown' \
-    'r-forecast' \
-    'r-rsqlite' \
-    'r-reshape2' \
-    'r-nycflights13' \
     'r-caret' \
-    'r-rcurl' \
     'r-crayon' \
+    'r-devtools' \
+    'r-forecast' \
+    'r-irkernel' \
+    'r-nycflights13' \
     'r-randomforest' \
+    'r-rcurl' \
+    'r-rmarkdown' \
+    'r-rsqlite' \
+    'r-shiny' \
+    'r-tidyverse' \
+    #'rpy2' \
+    #'r-plyr' \
+    'r-reshape2' \
     'r-rmysql' \
     'r-gplots' \
     'r-gtools' \
