@@ -138,30 +138,30 @@ RUN set -x && \
 # Correct permissions
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
-RUN conda install --quiet --yes \
+RUN mamba install --quiet --yes \
     'notebook' \
     'jupyterhub' \
     'jupyterlab' \
-    "r-base=$R_BASE_VERSION" \
+    'r-base=$R_BASE_VERSION' \
     'r-base' \
     'r-caret' \
     'r-crayon' \
     'r-devtools' \
     'r-e1071' \
-    #'r-forecast' \
+    'r-forecast' \
     'r-hexbin' \
     'r-irkernel' \
     'r-nycflights13' \
     'r-randomforest' \
     'r-rcurl' \
     'r-rmarkdown' \
-    #'r-rsqlite' \
+    'r-rsqlite' \
     'r-shiny' \
     'r-tidymodels' \
     'r-tidyverse' \
     'rpy2' \
-    #'r-plyr' \
-    #'r-reshape2' \
+    'r-plyr' \
+    'r-reshape2' \
     'r-rmysql' \
     'r-gplots' \
     'r-gtools' \
