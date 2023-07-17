@@ -22,7 +22,7 @@ USER root
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://github.com/conda-forge/miniforge/releases
 # Conda version
-ARG conda_version="4.10.3"
+ARG conda_version="23.5.0"
 # Miniforge installer patch version
 ARG miniforge_patch_number="3"
 # Package Manager and Python implementation to use (https://github.com/conda-forge/miniforge)
@@ -142,10 +142,10 @@ RUN conda install --quiet --yes \
     'notebook' \
     'jupyterhub' \
     'jupyterlab' \
+    'r-base' \
     'jupyterhub=2' \
     'jupyterhub-base=2' \
     'jupyter_server=1' \
-    'r-base=4.3.1' \
     #'r-caret' \
     #'r-crayon' \
     #'r-devtools' \
