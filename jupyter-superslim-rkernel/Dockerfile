@@ -73,8 +73,8 @@ COPY resources/scripts/fix-permissions /usr/local/bin/fix-permissions
 RUN chmod a+rx /usr/local/bin/fix-permissions
 
 # Use overrides.json file to change the default settings
-RUN mkdir -p /opt/conda/share/jupyter/lab/settings
-COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
+#RUN mkdir -p /opt/conda/share/jupyter/lab/settings
+#COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
 
 
 # Enable prompt color in the skeleton .bashrc before creating the default NB_USER
