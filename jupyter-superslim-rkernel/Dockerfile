@@ -22,7 +22,7 @@ USER root
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://github.com/conda-forge/miniforge/releases
 # Conda version
-ARG conda_version="23.5.0"
+ARG conda_version="4.10.3"
 # Miniforge installer patch version
 ARG miniforge_patch_number="3"
 # Package Manager and Python implementation to use (https://github.com/conda-forge/miniforge)
@@ -138,7 +138,7 @@ RUN set -x && \
 # Correct permissions
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
-RUN conda install --quiet --yes \
+RUN mamba install --quiet --yes \
     'notebook' \
     'jupyterhub' \
     'jupyterlab' \
