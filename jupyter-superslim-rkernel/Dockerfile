@@ -146,17 +146,14 @@ RUN conda install --quiet --yes \
     'r-caret' \
     'r-crayon' \
     'r-devtools' \
-    'r-forecast' \
     'r-irkernel' \
     'r-nycflights13' \
     'r-randomforest' \
     'r-rcurl' \
     'r-rmarkdown' \
-    'r-rsqlite' \
     'r-shiny' \
     'r-tidyverse' \
     'rpy2' \
-    'r-plyr' \
     'r-rmysql' \
     'r-gplots' \
     'r-gtools' \
