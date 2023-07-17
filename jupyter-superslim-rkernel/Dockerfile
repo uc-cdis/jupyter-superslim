@@ -61,7 +61,7 @@ ENV CONDA_DIR=/opt/conda \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
-    R_BASE_VERSION=4.3.1
+    R_BASE_VERSION=4.3.0
 
 ENV PATH="${CONDA_DIR}/bin:${PATH}" \
     HOME="/home/${NB_USER}" \
@@ -145,7 +145,7 @@ RUN conda install --quiet --yes \
     'jupyterhub=2' \
     'jupyterhub-base=2' \
     'jupyter_server=1' \
-    #"r-base=$R_BASE_VERSION" \
+    'r-base' \
     #'r-caret' \
     #'r-crayon' \
     #'r-devtools' \
