@@ -142,25 +142,25 @@ RUN conda install --quiet --yes \
     'notebook' \
     'jupyterhub' \
     'jupyterlab' \
-    "r-base=$R_BASE_VERSION" \
-    'r-caret' \
-    'r-crayon' \
-    'r-devtools' \
-    'r-irkernel' \
-    'r-nycflights13' \
-    'r-randomforest' \
-    'r-rcurl' \
-    'r-rmarkdown' \
-    'r-shiny' \
-    'r-tidyverse' \
-    'rpy2' \
-    'r-rmysql' \
-    'r-gplots' \
-    'r-gtools' \
-    'r-catools' \
     'jupyterhub=2' \
     'jupyterhub-base=2' \
     'jupyter_server=1' \
+    "r-base=$R_BASE_VERSION" \
+    #'r-caret' \
+    #'r-crayon' \
+    #'r-devtools' \
+    #'r-irkernel' \
+    #'r-nycflights13' \
+    #'r-randomforest' \
+    #'r-rcurl' \
+    #'r-rmarkdown' \
+    #'r-shiny' \
+    #'r-tidyverse' \
+    #'rpy2' \
+    #'r-rmysql' \
+    #'r-gplots' \
+    #'r-gtools' \
+    #'r-catools' \
     && conda clean --all -f -y && \
     npm cache clean --force && \
     jupyter notebook --generate-config && \
