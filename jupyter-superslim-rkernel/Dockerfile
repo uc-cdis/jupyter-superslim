@@ -139,7 +139,6 @@ RUN set -x && \
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
 RUN conda install --quiet --yes \
-    'ipywidgets' \
     'notebook' \
     'jupyterhub' \
     'jupyterlab' \
@@ -147,9 +146,7 @@ RUN conda install --quiet --yes \
     'r-caret' \
     'r-crayon' \
     'r-devtools' \
-    'r-e1071' \
     'r-forecast' \
-    'r-hexbin' \
     'r-irkernel' \
     'r-nycflights13' \
     'r-randomforest' \
@@ -157,11 +154,9 @@ RUN conda install --quiet --yes \
     'r-rmarkdown' \
     'r-rsqlite' \
     'r-shiny' \
-    'r-tidymodels' \
     'r-tidyverse' \
     'rpy2' \
     'r-plyr' \
-    'r-reshape2' \
     'r-rmysql' \
     'r-gplots' \
     'r-gtools' \
