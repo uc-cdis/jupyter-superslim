@@ -1,6 +1,7 @@
 gen3==4.19.1
 cdiserrors
-pandas
 numpy
+scipy
+pandas
 jupyter_server_ydoc
 # trigger build
