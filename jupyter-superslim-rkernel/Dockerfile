@@ -145,7 +145,7 @@ RUN conda install --quiet --yes \
     'jupyterhub=2' \
     'jupyterhub-base=2' \
     'jupyter_server=1' \
-    "r-base=$R_BASE_VERSION" \
+    #"r-base=$R_BASE_VERSION" \
     #'r-caret' \
     #'r-crayon' \
     #'r-devtools' \
