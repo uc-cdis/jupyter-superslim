@@ -31,7 +31,9 @@ ARG miniforge_python="Mambaforge"
 # Miniforge archive to install
 ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
 
-# R pre-requisites and OS dependencies for notebook server
+
+# Install all OS dependencies for notebook server that starts but lacks all
+# features (e.g., download as all possible file formats)
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
@@ -49,7 +51,6 @@ RUN apt-get update --yes && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen
-
 
 # Configure environment
 ENV CONDA_DIR=/opt/conda \
@@ -69,7 +70,6 @@ ENV PATH="${CONDA_DIR}/bin:${PATH}" \
 
 # System deps:
 RUN pip install "poetry==$POETRY_VERSION"
-
 
 # Copy a script that we will use to correct permissions after running certain commands
 COPY resources/scripts/fix-permissions /usr/local/bin/fix-permissions
@@ -103,8 +103,7 @@ USER ${NB_UID}
 ARG PYTHON_VERSION=default
 
 # Install conda as jovyan and check the sha256 sum provided on the download site
-#WORKDIR /tmp
-#WORKDIR /.
+WORKDIR /tmp
 
 # Poetry installations
 #COPY poetry.toml poetry.lock ./

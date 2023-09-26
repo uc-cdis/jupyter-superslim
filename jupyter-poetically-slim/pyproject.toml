@@ -9,6 +9,9 @@ python = "^3.9"
 numpy = "^1.22.4"
 pandas = "^1.4.2"
 requests = "^2.27.1"
+jupyterlab = "3.6.6" # 4.0.0+ not stable enough yet
+jupyter_server = "^2.7.3"
+# may need more jupyter tools like jupyterhub
 
 [tool.poetry.dev-dependencies]
 
