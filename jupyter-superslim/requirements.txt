@@ -3,3 +3,4 @@ cdiserrors
 pandas
 numpy
 jupyter_server_ydoc
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
