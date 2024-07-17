@@ -22,9 +22,9 @@ USER root
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://github.com/conda-forge/miniforge/releases
 # Conda version
-ARG conda_version="4.10.3"
+ARG conda_version="24.3.0"
 # Miniforge installer patch version
-ARG miniforge_patch_number="3"
+ARG miniforge_patch_number="0"
 # Package Manager and Python implementation to use (https://github.com/conda-forge/miniforge)
 # - conda only: either Miniforge3 to use Python or Miniforge-pypy3 to use PyPy
 # - conda + mamba: either Mambaforge to use Python or Mambaforge-pypy3 to use PyPy
@@ -35,7 +35,7 @@ ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
 
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     tini \
@@ -61,7 +61,7 @@ ENV CONDA_DIR=/opt/conda \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
-    R_BASE_VERSION=4.1.0
+    R_BASE_VERSION=4.3.3
 
 ENV PATH="${CONDA_DIR}/bin:${PATH}" \
     HOME="/home/${NB_USER}" \
@@ -97,7 +97,7 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     fix-permissions "${CONDA_DIR}"
 
 USER ${NB_UID}
-ARG PYTHON_VERSION=default
+ARG PYTHON_VERSION=3.9
 
 # Install conda as jovyan and check the sha256 sum provided on the download site
 WORKDIR /tmp
@@ -123,6 +123,7 @@ RUN set -x && \
     conda list python | grep '^python ' | tr -s ' ' | cut -d ' ' -f 1,2 >> "${CONDA_DIR}/conda-meta/pinned" && \
     conda install --quiet --yes \
     "conda=${CONDA_VERSION}" \
+    "python=${PYTHON_VERSION}" \
     'pip' && \
     conda update --all --quiet --yes && \
     conda clean --all -f -y && \
@@ -138,7 +139,7 @@ RUN set -x && \
 # Correct permissions
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
-RUN conda install --quiet --yes \
+RUN conda install --quiet --yes python="${PYTHON_VERSION}"\
     'notebook' \
     'jupyterhub' \
     'jupyterlab' \
@@ -162,9 +163,8 @@ RUN conda install --quiet --yes \
     'r-gplots' \
     'r-gtools' \
     'r-catools' \
-    'jupyterhub=2' \
-    'jupyterhub-base=2' \
-    'jupyter_server=1' \
+    'jupyterhub-base' \
+    'jupyter_server' \
     && conda clean --all -f -y && \
     npm cache clean --force && \
     jupyter notebook --generate-config && \
