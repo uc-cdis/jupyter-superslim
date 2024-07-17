@@ -1,7 +1,7 @@
 version: '3'
 services:
    webapp:
-      image: "jupyter-ssr"
+      image: "quay.io/cdis/jupyter-superslim-rkernel:latest"
       volumes:
          - ./data-volume:/data
          - ./user-volume:/home/jovyan/pd

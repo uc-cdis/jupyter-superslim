@@ -1,4 +1,4 @@
-gen3==4.17.2
+gen3
 cdiserrors
 pandas
 numpy
