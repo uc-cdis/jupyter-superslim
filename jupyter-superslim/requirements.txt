@@ -1,13 +1,15 @@
-gen3>=4.25.1
+gen3
 cdiserrors
 pandas
 numpy
-# begin of desired Jupyter plugins
-jupyter_server_ydoc
-jupyterlab-git
-jupyterlab-search-replace
-lckr-jupyterlab-variableinspector
-altair
-# end of desired Jupyter plugins
 tornado>=6.3.3 # not directly required, pinned by Snyk to avoid a vulnerability
 zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
+# begin jupyter plugins and utilities section
+jupyterlab-lsp
+jupyterlab-search-replace
+jupyterlab-git
+altair[all]
+lckr_jupyterlab_variableinspector
+ripgrep
+frictionless
+# end jupyter plugins and utilities section
