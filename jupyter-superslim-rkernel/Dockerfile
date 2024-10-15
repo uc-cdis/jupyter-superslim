@@ -22,13 +22,11 @@ USER root
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://github.com/conda-forge/miniforge/releases
 # Conda version
-ARG conda_version="24.3.0"
+ARG conda_version="24.7.1"
 # Miniforge installer patch version
-ARG miniforge_patch_number="0"
+ARG miniforge_patch_number="2"
 # Package Manager and Python implementation to use (https://github.com/conda-forge/miniforge)
-# - conda only: either Miniforge3 to use Python or Miniforge-pypy3 to use PyPy
-# - conda + mamba: either Mambaforge to use Python or Mambaforge-pypy3 to use PyPy
-ARG miniforge_python="Mambaforge"
+ARG miniforge_python="Miniforge3"
 # Miniforge archive to install
 ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
 
@@ -61,7 +59,7 @@ ENV CONDA_DIR=/opt/conda \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
-    R_BASE_VERSION=4.3.3
+    R_BASE_VERSION=4.4.1
 
 ENV PATH="${CONDA_DIR}/bin:${PATH}" \
     HOME="/home/${NB_USER}" \
@@ -102,7 +100,7 @@ ARG PYTHON_VERSION=3.9
 # Install conda as jovyan and check the sha256 sum provided on the download site
 WORKDIR /tmp
 
-# Prerequisites installation: conda, mamba, pip, tini
+# Prerequisites installation: conda, pip, tini
 RUN set -x && \
     # Miniforge installer
     miniforge_arch=$(uname -m) && \
@@ -117,6 +115,7 @@ RUN set -x && \
     rm "${miniforge_installer}" && \
     # Conda configuration see https://conda.io/projects/conda/en/latest/configuration.html
     echo "conda ${CONDA_VERSION}" >> "${CONDA_DIR}/conda-meta/pinned" && \
+    conda update -n base -c defaults conda && \
     conda config --system --set auto_update_conda false && \
     conda config --system --set show_channel_urls true && \
     if [[ "${PYTHON_VERSION}" != "default" ]]; then conda install --yes python="${PYTHON_VERSION}"; fi && \
