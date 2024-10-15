@@ -5,10 +5,10 @@ A "slim" build of jupyter notebook images
 ## Run locally
 
 ```
-docker-compose -f ./jupytersuperslim.yaml up
+docker compose -f ./jupytersuperslim.yaml up
 ```
 
-Then connect to http://localhost:9880/lw-workspace/proxy/
+Then connect to http://localhost:9888/lw-workspace/proxy/
 
 ## Deploy to hatchery
 
