@@ -13,3 +13,4 @@ lckr_jupyterlab_variableinspector
 ripgrep
 frictionless
 # end jupyter plugins and utilities section
+jupyterlab>=4.2.0 # install jupyterlab here to make sure it doesn't get downgraded
