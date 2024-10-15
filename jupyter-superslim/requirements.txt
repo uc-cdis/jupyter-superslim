@@ -1,11 +1,11 @@
-gen3
+gen3>=4.25.0
 cdiserrors
 pandas
 numpy
 tornado>=6.3.3 # not directly required, pinned by Snyk to avoid a vulnerability
 zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
 # begin jupyter plugins and utilities section
-jupyterlab-lsp
+# jupyterlab-lsp # not installing this now since it will cause some dependency conflicts for the latest version of gen3sdk and jupyterlab
 jupyterlab-search-replace
 jupyterlab-git
 altair[all]
@@ -13,4 +13,3 @@ lckr_jupyterlab_variableinspector
 ripgrep
 frictionless
 # end jupyter plugins and utilities section
-jupyterlab>=4.2.0 # install jupyterlab here to make sure it doesn't get downgraded

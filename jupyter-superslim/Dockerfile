@@ -138,6 +138,7 @@ COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
 RUN conda install --quiet --yes python="${PYTHON_VERSION}" \
     'notebook' \
     'jupyterhub' \
+    'jupyterlab' \
     'jupyterhub-base' \
     'jupyter_server' \
     && conda clean --all -f -y && \

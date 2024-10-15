@@ -59,7 +59,7 @@ ENV CONDA_DIR=/opt/conda \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
-    R_BASE_VERSION=4.4.1
+    R_BASE_VERSION=4.3.3
 
 ENV PATH="${CONDA_DIR}/bin:${PATH}" \
     HOME="/home/${NB_USER}" \
@@ -69,11 +69,6 @@ ENV PATH="${CONDA_DIR}/bin:${PATH}" \
 # Copy a script that we will use to correct permissions after running certain commands
 COPY resources/scripts/fix-permissions /usr/local/bin/fix-permissions
 RUN chmod a+rx /usr/local/bin/fix-permissions
-
-# Use overrides.json file to change the default settings
-RUN mkdir -p /opt/conda/share/jupyter/lab/settings
-COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
-
 
 # Enable prompt color in the skeleton .bashrc before creating the default NB_USER
 # hadolint ignore=SC2016
@@ -130,6 +125,10 @@ RUN set -x && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
+# Use overrides.json file to change the default settings
+RUN mkdir -p /opt/conda/share/jupyter/lab/settings
+COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
+
 # Install Jupyter Notebook, Lab, Hub and R packages
 # R packages including IRKernel which gets installed globally.
 # See https://github.com/rocker-org/rocker/blob/master/r-base/Dockerfile
@@ -138,7 +137,7 @@ RUN set -x && \
 # Correct permissions
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
-RUN conda install --quiet --yes python="${PYTHON_VERSION}"\
+RUN conda install --quiet --yes python="${PYTHON_VERSION}" \
     'notebook' \
     'jupyterhub' \
     'jupyterlab' \
