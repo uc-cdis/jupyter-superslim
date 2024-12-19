@@ -1,4 +1,3 @@
-version: '3'
 services:
    webapp:
       image: "quay.io/cdis/jupyter-superslim:latest"
@@ -8,11 +7,12 @@ services:
       entrypoint:
         - "start-notebook.sh"
       command:
-        - "--NotebookApp.base_url=/lw-workspace/proxy"
-        - "--NotebookApp.password=''"
-        - "--NotebookApp.token=''"
+        - "--JupyterNotebookApp.base_url=/lw-workspace/proxy"
+        - "--JupyterNotebookApp.default_url=/lab"
+        - "--JupyterNotebookApp.password=''"
+        - "--JupyterNotebookApp.token=''"
       ports:
-         - "9888:8888"
+         - "8888:8888"
       healthcheck:
         test: ["CMD", "curl", "-f", "http://localhost:8888/lw-workspace/proxy/"]
         interval: 1m30s

@@ -5,10 +5,14 @@ A "slim" build of jupyter notebook images
 ## Run locally
 
 ```
-docker compose -f ./jupytersuperslim.yaml up
+docker compose -f ./jupyter-superslim/jupytersuperslim.yaml up
+```
+or
+```
+docker compose -f ./jupyter-superslim-rkernel/jupytersuperslimrkernel.yaml up
 ```
 
-Then connect to http://localhost:9888/lw-workspace/proxy/
+Then connect to http://localhost:8888/lw-workspace/proxy/
 
 ## Deploy to hatchery
 
