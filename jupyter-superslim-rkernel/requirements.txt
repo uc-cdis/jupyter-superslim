@@ -14,4 +14,3 @@ lckr_jupyterlab_variableinspector
 ripgrep
 frictionless
 # end jupyter plugins and utilities section
-# Trigger build
