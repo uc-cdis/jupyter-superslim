@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "jupyter-superslim"
+version = "2.1.0"
+description = "Jupyter Superslim"
+authors = ["CTDS UChicago <cdis@uchicago.edu>"]
+license = "Apache-2.0"
+repository = "https://github.com/uc-cdis/jupyter-superslim"
+include = [
+  "NOTICE",
+]
+package-mode = false
+
+
+[tool.poetry.dependencies]
+python = ">=3.9.2, <3.10"
+gen3 = "*"
+cdiserrors = "*"
+pandas = "*"
+numpy = "*"
+
+# not a direct dependency, pinned by Snyk to avoid a vulnerability
+tornado = ">=6.3.3"
+zipp = ">=3.19.1"
+
+# Jupyter plugins and utilities section
+jupyter-lsp = "*"
+jupyterlab-lsp = "*"
+jupyterlab-search-replace = "*"
+jupyterlab-git = "*"
+altair = {extras = ["all"], version = "*"}
+lckr_jupyterlab_variableinspector = "*"
+frictionless = "*"
+
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

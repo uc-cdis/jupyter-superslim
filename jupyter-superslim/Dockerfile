@@ -1,16 +1,14 @@
-# Copyright (c) Jupyter Development Team.
-# Distributed under the terms of the Modified BSD License.
+ARG AZLINUX_BASE_VERSION=master
 
-# Ubuntu 20.04 (focal)
-# https://hub.docker.com/_/ubuntu/?tab=tags&name=focal
-ARG ROOT_CONTAINER=quay.io/cdis/ubuntu:focal
-
-FROM $ROOT_CONTAINER
+# For local development
+# FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
+# Base stage with python-build-base
+FROM quay.io/cdis/python-nginx-al:${AZLINUX_BASE_VERSION} AS base
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
-ARG NB_USER="jovyan"
-ARG NB_UID="1000"
-ARG NB_GID="100"
+LABEL name="jupyter-superslim-base"
+
+
 
 # Fix DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -30,35 +28,50 @@ ARG miniforge_python="Miniforge3"
 # Miniforge archive to install
 ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
 
+# # Builder stage
+# FROM base AS builder
 
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update --yes && \
-    apt-get install --yes --no-install-recommends \
-    tini \
+# ENV DEBIAN_FRONTEND=noninteractive
+
+# https://github.com/krallin/tini?tab=readme-ov-file#using-tini
+ENV TINI_VERSION=v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENV PATH="${PATH}:/tini"
+
+
+RUN yum -y update
+RUN yum install -y \
+#    tini \
     wget \
     git \
-    curl \
     ca-certificates \
     sudo \
-    locales \
-    fonts-liberation \
-    vim \
-    run-one && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* && \
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen
+#    run-one && \
+    gzip \
+#    ripgrep \
+    glibc-langpack-en \
+    glibc-common \
+    findutils \
+    which \
+    vim && \
+    yum clean all
 
 # Configure environment
+ARG NB_USER="jovyan"
+ARG NB_UID="1010"
+ARG NB_GID="100"
+ENV NB_USER="${NB_USER}"
+ENV NB_UID="${NB_UID}"
+ENV NB_GID="${NB_GID}"
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
-    NB_USER="${NB_USER}" \
-    NB_UID=${NB_UID} \
-    NB_GID=${NB_GID} \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
-    LANGUAGE=en_US.UTF-8
+    LANGUAGE=en_US.UTF-8 \
+    LC_CTYPE=en_US.UTF-8
 
 ENV PATH="${CONDA_DIR}/bin:${PATH}" \
     HOME="/home/${NB_USER}" \
@@ -78,9 +91,11 @@ RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashr
 
 # Create NB_USER with name jovyan user with UID=1000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
+
 RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
     sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers && \
+    # id -u \${NB_USER} &>/dev/null || useradd -l -m -s /bin/bash -N -u "${NB_UID}" "${NB_USER}" && \
     useradd -l -m -s /bin/bash -N -u "${NB_UID}" "${NB_USER}" && \
     mkdir -p "${CONDA_DIR}" && \
     chown "${NB_USER}:${NB_GID}" "${CONDA_DIR}" && \
@@ -90,7 +105,6 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
 
 USER ${NB_UID}
 ARG PYTHON_VERSION=3.9
-
 
 # Install conda as jovyan and check the sha256 sum provided on the download site
 WORKDIR /tmp
@@ -119,6 +133,7 @@ RUN set -x && \
     "conda=${CONDA_VERSION}" \
     "python=${PYTHON_VERSION}" \
     'pip' && \
+    python -m pip install --upgrade pip && \
     conda update --all --quiet --yes && \
     conda clean --all -f -y && \
     rm -rf "/home/${NB_USER}/.cache/yarn" && \
@@ -163,8 +178,10 @@ COPY resources/jupyter_notebook_config.py /etc/jupyter/
 COPY resources/custom.js /home/$NB_USER/.jupyter/custom/
 
 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+COPY pyproject.toml pyproject.toml
+COPY poetry.lock poetry.lock
+RUN pip3 install poetry
+RUN poetry install -vv --no-interaction
 
 # Fix permissions on /etc/jupyter as root
 USER root
