@@ -1,16 +1,11 @@
-# Copyright (c) Jupyter Development Team.
-# Distributed under the terms of the Modified BSD License.
+ARG AZLINUX_BASE_VERSION=master
 
-# Ubuntu 20.04 (focal)
-# https://hub.docker.com/_/ubuntu/?tab=tags&name=focal
-ARG ROOT_CONTAINER=quay.io/cdis/ubuntu:focal
-
-FROM $ROOT_CONTAINER
+# For local development
+FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
-ARG NB_USER="jovyan"
-ARG NB_UID="1000"
-ARG NB_GID="100"
+LABEL name="jupyter-superslim-base"
+
 
 # Fix DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -33,24 +28,36 @@ ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
 
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update --yes && \
-    apt-get install --yes --no-install-recommends \
-    tini \
+
+# Per https://github.com/krallin/tini?tab=readme-ov-file#using-tini
+ENV TINI_VERSION=v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+
+RUN yum -y update
+RUN yum install -y \
     wget \
-    curl \
     git \
     ca-certificates \
     sudo \
-    locales \
-    fonts-liberation \
-    vim \
-    run-one && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* && \
-    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen
+    gzip \
+# Not available in AL2
+#    run-one \
+#    ripgrep \
+    glibc-langpack-en \
+    glibc-common \
+    findutils \
+    which \
+    vim && \
+    yum clean all
 
 # Configure environment
+ARG NB_USER="jovyan"
+ARG NB_UID="1010"
+ARG NB_GID="100"
+ENV NB_USER="${NB_USER}"
+ENV NB_UID="${NB_UID}"
+ENV NB_GID="${NB_GID}"
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
     NB_USER="${NB_USER}" \
@@ -174,7 +181,7 @@ RUN conda install --quiet --yes python="${PYTHON_VERSION}" \
 EXPOSE 8888
 
 # Configure container startup
-ENTRYPOINT ["tini", "-g", "--"]
+ENTRYPOINT ["/tini", "-g", "--"]
 CMD ["start-notebook.sh"]
 
 # Copy local files as late as possible to avoid cache busting
@@ -184,8 +191,10 @@ COPY resources/jupyter_notebook_config.py /etc/jupyter/
 # Do not open notebooks in a new tab: https://github.com/jupyter/notebook/issues/4115
 COPY resources/custom.js /home/$NB_USER/.jupyter/custom/
 
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+COPY pyproject.toml pyproject.toml
+COPY poetry.lock poetry.lock
+RUN pip3 install poetry
+RUN poetry install -vv --no-interaction
 
 # Fix permissions on /etc/jupyter as root
 USER root
