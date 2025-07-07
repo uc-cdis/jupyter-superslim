@@ -19,7 +19,7 @@ pandas = "*"
 numpy = "*"
 
 # not a direct dependency, pinned by Snyk to avoid a vulnerability
-tornado = ">=6.3.3"
+tornado = ">=6.5"
 zipp = ">=3.19.1"
 
 # Jupyter plugins and utilities section

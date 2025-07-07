@@ -1,13 +1,12 @@
 ARG AZLINUX_BASE_VERSION=master
 
 # For local development
-# FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
+FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
 # Base stage with python-build-base
-FROM quay.io/cdis/python-nginx-al:${AZLINUX_BASE_VERSION} AS base
+# FROM quay.io/cdis/python-nginx-al:${AZLINUX_BASE_VERSION} AS base
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 LABEL name="jupyter-superslim-base"
-
 
 
 # Fix DL4006
@@ -33,24 +32,21 @@ ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
 
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
-# ENV DEBIAN_FRONTEND=noninteractive
 
-# https://github.com/krallin/tini?tab=readme-ov-file#using-tini
+# Per https://github.com/krallin/tini?tab=readme-ov-file#using-tini
 ENV TINI_VERSION=v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
-ENV PATH="${PATH}:/tini"
-
 
 RUN yum -y update
 RUN yum install -y \
-#    tini \
     wget \
     git \
     ca-certificates \
     sudo \
-#    run-one && \
     gzip \
+# Not available in AL2
+#    run-one \
 #    ripgrep \
     glibc-langpack-en \
     glibc-common \
@@ -167,7 +163,7 @@ RUN conda install --quiet --yes python="${PYTHON_VERSION}" \
 EXPOSE 8888
 
 # Configure container startup
-ENTRYPOINT ["tini", "-g", "--"]
+ENTRYPOINT ["/tini", "-g", "--"]
 CMD ["start-notebook.sh"]
 
 # Copy local files as late as possible to avoid cache busting
