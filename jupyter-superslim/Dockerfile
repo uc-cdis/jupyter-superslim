@@ -2,8 +2,6 @@ ARG AZLINUX_BASE_VERSION=master
 
 # For local development
 FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
-# Base stage with python-build-base
-# FROM quay.io/cdis/python-nginx-al:${AZLINUX_BASE_VERSION} AS base
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 LABEL name="jupyter-superslim-base"
@@ -27,13 +25,11 @@ ARG miniforge_python="Miniforge3"
 # Miniforge archive to install
 ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
 
-# # Builder stage
-# FROM base AS builder
 
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
 
-# Per https://github.com/krallin/tini?tab=readme-ov-file#using-tini
+# tini per https://github.com/krallin/tini?tab=readme-ov-file#using-tini
 ENV TINI_VERSION=v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
@@ -85,9 +81,8 @@ RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashr
     echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
 
 
-# Create NB_USER with name jovyan user with UID=1000 and in the 'users' group
+# Create NB_USER with name 'jovyan' user with UID=1010 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
-
 RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
     sed -i.bak -e 's/^%sudo/#%sudo/' /etc/sudoers && \
@@ -102,10 +97,10 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
 USER ${NB_UID}
 ARG PYTHON_VERSION=3.9
 
-# Install conda as jovyan and check the sha256 sum provided on the download site
+# Install conda as 'jovyan' and check the sha256 sum provided on the download site
 WORKDIR /tmp
 
-# Prerequisites installation: conda, pip, tini
+# Prerequisites installation: conda, pip
 RUN set -x && \
     # Miniforge installer
     miniforge_arch=$(uname -m) && \

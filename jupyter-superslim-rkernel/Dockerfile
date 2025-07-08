@@ -29,7 +29,7 @@ ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
 # Install all OS dependencies for notebook server that starts but lacks all
 # features (e.g., download as all possible file formats)
 
-# Per https://github.com/krallin/tini?tab=readme-ov-file#using-tini
+# tini per https://github.com/krallin/tini?tab=readme-ov-file#using-tini
 ENV TINI_VERSION=v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
@@ -102,7 +102,7 @@ ARG PYTHON_VERSION=3.9
 # Install conda as jovyan and check the sha256 sum provided on the download site
 WORKDIR /tmp
 
-# Prerequisites installation: conda, pip, tini
+# Prerequisites installation: conda, pip
 RUN set -x && \
     # Miniforge installer
     miniforge_arch=$(uname -m) && \
