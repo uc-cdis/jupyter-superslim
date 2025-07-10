@@ -4,9 +4,9 @@
 
 set -e
 
-use_lab=""
+lab_or_notebook="notebook"
 if [[ -n "${JUPYTER_ENABLE_LAB}" ]]; then
-    use_lab="lab"
+    lab_or_notebook="lab"
 fi
 
 if [[ -n "${JUPYTERHUB_API_TOKEN}" ]]; then
@@ -15,10 +15,10 @@ if [[ -n "${JUPYTERHUB_API_TOKEN}" ]]; then
 else
     # shellcheck disable=SC1091
     if [[ "${RESTARTABLE}" == "yes" ]]; then
-       while true; do
-           flock -n /tmp/jupyter_notebook.lock . /usr/local/bin/start.sh jupyter ${use_lab} -y "$@"
-       done
+        while true; do
+            flock -n /tmp/jupyter_notebook.lock . /usr/local/bin/start.sh jupyter ${lab_or_notebook} -y "$@"
+        done
     else
-        . /usr/local/bin/start.sh jupyter ${use_lab} -y "$@"
+        . /usr/local/bin/start.sh jupyter ${lab_or_notebook} -y "$@"
     fi
 fi
