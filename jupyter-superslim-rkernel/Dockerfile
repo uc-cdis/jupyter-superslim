@@ -60,9 +60,6 @@ ENV NB_UID="${NB_UID}"
 ENV NB_GID="${NB_GID}"
 ENV CONDA_DIR=/opt/conda \
     SHELL=/bin/bash \
-    NB_USER="${NB_USER}" \
-    NB_UID=${NB_UID} \
-    NB_GID=${NB_GID} \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
@@ -180,9 +177,6 @@ RUN conda install --quiet --yes python="${PYTHON_VERSION}" \
 
 EXPOSE 8888
 
-# Configure container startup
-ENTRYPOINT ["/tini", "-g", "--"]
-CMD ["start-notebook.sh"]
 
 # Copy local files as late as possible to avoid cache busting
 COPY resources/scripts/jupyter/ /usr/local/bin/
@@ -208,3 +202,7 @@ RUN sed -re "s/c.NotebookApp/c.ServerApp/g" \
 USER ${NB_UID}
 
 WORKDIR "${HOME}"
+
+# Configure container startup
+ENTRYPOINT ["/tini", "-g", "--"]
+CMD ["start-notebook.sh"]

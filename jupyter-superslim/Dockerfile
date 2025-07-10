@@ -157,9 +157,6 @@ RUN conda install --quiet --yes python="${PYTHON_VERSION}" \
 
 EXPOSE 8888
 
-# Configure container startup
-ENTRYPOINT ["/tini", "-g", "--"]
-CMD ["start-notebook.sh"]
 
 # Copy local files as late as possible to avoid cache busting
 COPY resources/scripts/jupyter/ /usr/local/bin/
@@ -167,7 +164,6 @@ COPY resources/scripts/jupyter/ /usr/local/bin/
 COPY resources/jupyter_notebook_config.py /etc/jupyter/
 # Do not open notebooks in a new tab: https://github.com/jupyter/notebook/issues/4115
 COPY resources/custom.js /home/$NB_USER/.jupyter/custom/
-
 
 COPY pyproject.toml pyproject.toml
 COPY poetry.lock poetry.lock
@@ -186,3 +182,7 @@ RUN sed -re "s/c.NotebookApp/c.ServerApp/g" \
 USER ${NB_UID}
 
 WORKDIR "${HOME}"
+
+# Configure container startup
+ENTRYPOINT ["/tini", "-g", "--"]
+CMD ["start-notebook.sh"]
