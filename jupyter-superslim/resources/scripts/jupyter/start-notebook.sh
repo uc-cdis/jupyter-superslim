@@ -4,21 +4,29 @@
 
 set -e
 
-lab_or_notebook="notebook"
-if [[ -n "${JUPYTER_ENABLE_LAB}" ]]; then
-    lab_or_notebook="lab"
-fi
-
 if [[ -n "${JUPYTERHUB_API_TOKEN}" ]]; then
     # launched by JupyterHub, use single-user entrypoint
     exec /usr/local/bin/start-singleuser.sh "$@"
-else
-    # shellcheck disable=SC1091
+elif [[ -n "${JUPYTER_ENABLE_LAB}" ]]; then
+
     if [[ "${RESTARTABLE}" == "yes" ]]; then
         while true; do
-            flock -n /tmp/jupyter_notebook.lock . /usr/local/bin/start.sh jupyter ${lab_or_notebook} -y "$@"
+            # shellcheck disable=SC1091
+            flock -n /tmp/jupyter_notebook.lock . /usr/local/bin/start.sh jupyter lab -y "$@"
         done
     else
-        . /usr/local/bin/start.sh jupyter ${lab_or_notebook} -y "$@"
+        # shellcheck disable=SC1091
+        . /usr/local/bin/start.sh jupyter lab -y "$@"
+    fi
+else
+    echo "WARN: Jupyter Notebook deprecation notice https://github.com/jupyter/docker-stacks#jupyter-notebook-deprecation-notice."
+    if [[ "${RESTARTABLE}" == "yes" ]]; then
+        while true; do
+            # shellcheck disable=SC1091
+            flock -n /tmp/jupyter_notebook.lock . /usr/local/bin/start.sh jupyter notebook -y "$@"
+        done
+    else
+        # shellcheck disable=SC1091
+        . /usr/local/bin/start.sh jupyter notebook -y "$@"
     fi
 fi
