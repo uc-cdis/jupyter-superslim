@@ -14,3 +14,4 @@ lckr_jupyterlab_variableinspector
 ripgrep
 frictionless
 # end jupyter plugins and utilities section
+urllib3>=2.5.0 # not directly required, pinned by Snyk to avoid a vulnerability
