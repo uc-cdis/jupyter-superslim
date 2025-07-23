@@ -41,13 +41,11 @@ RUN yum install -y \
     ca-certificates \
     sudo \
     gzip \
-# Not available in AL2
-#    run-one \
-#    ripgrep \
     glibc-langpack-en \
     glibc-common \
     findutils \
     which \
+    tar \
     vim && \
     yum clean all
 
