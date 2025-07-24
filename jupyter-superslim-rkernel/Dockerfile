@@ -56,7 +56,7 @@ ARG NB_USER="jovyan"
 ARG NB_UID="2000"
 # Bump GID to 200. On Amazon Linux 2 the UID=1000 is reserved for 'users'
 # https://docs.aws.amazon.com/linux/al2023/ug/al2023-reserved-groups-list.html
-ARG NB_GID="200"
+ARG NB_GID="100"
 ENV NB_USER="${NB_USER}"
 ENV NB_UID="${NB_UID}"
 ENV NB_GID="${NB_GID}"
@@ -83,7 +83,7 @@ RUN sed -i 's/^#force_color_prompt=yes/force_color_prompt=yes/' /etc/skel/.bashr
     echo 'eval "$(command conda shell.bash hook 2> /dev/null)"' >> /etc/skel/.bashrc
 
 
-# Create NB_USER with name jovyan user with UID=1000 and in the 'users' group
+# Create NB_USER with name jovyan user with UID=2000 and in the 'users' group
 # and make sure these dirs are writable by the `users` group.
 RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     sed -i.bak -e 's/^%admin/#%admin/' /etc/sudoers && \
