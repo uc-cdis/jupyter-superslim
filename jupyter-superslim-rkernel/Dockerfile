@@ -51,9 +51,9 @@ RUN yum install -y \
 
 # Configure environment
 ARG NB_USER="jovyan"
-# Bump UID to 2000. On Amazon Linux 2 the UID=1000 is reserved for 'ec2-user'
+# Bump UID to 1010. On Amazon Linux 2 the UID=1000 is reserved for 'ec2-user'
 # https://docs.aws.amazon.com/linux/al2023/ug/al2023-reserved-users-list.html
-ARG NB_UID="2000"
+ARG NB_UID="1010"
 ARG NB_GID="100"
 ENV NB_USER="${NB_USER}"
 ENV NB_UID="${NB_UID}"
