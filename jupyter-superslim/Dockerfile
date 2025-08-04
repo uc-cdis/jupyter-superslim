@@ -35,6 +35,7 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
 RUN yum -y update
+RUN yum -y groupinstall "Development Tools"
 RUN yum install -y \
     wget \
     git \
@@ -43,6 +44,7 @@ RUN yum install -y \
     gzip \
     glibc-langpack-en \
     glibc-common \
+    python3-devel \
     findutils \
     which \
     tar \
