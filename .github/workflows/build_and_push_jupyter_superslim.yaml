@@ -1,0 +1,32 @@
+name: Build and Push Jupyter Superslim Image
+
+on:
+  push:
+    paths:
+      - jupyter-superslim/**
+      - .github/workflows/build_and_push_jupyter_superslim.yml
+  pull_request:
+    types: [opened, reopened]
+    paths:
+      - jupyter-superslim/**
+      - .github/workflows/build_and_push_jupyter_superslim.yml
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
+  cancel-in-progress: true
+
+
+jobs:
+  build_superslim_image:
+    name: Build Image and Push (jupyter-superslim)
+    uses: uc-cdis/.github/.github/workflows/image_build_push_native.yaml@master
+    with:
+      DOCKERFILE_LOCATION: "./jupyter-superslim/Dockerfile"
+      DOCKERFILE_BUILD_CONTEXT: "./jupyter-superslim"
+      OVERRIDE_REPO_NAME: "jupyter-superslim"
+      USE_QUAY_ONLY: true
+    secrets:
+      ECR_AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+      ECR_AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+      QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      QUAY_ROBOT_TOKEN: ${{ secrets.QUAY_ROBOT_TOKEN }}

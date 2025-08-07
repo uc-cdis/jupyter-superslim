@@ -35,19 +35,19 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
 RUN yum -y update
+RUN yum -y groupinstall "Development Tools"
 RUN yum install -y \
     wget \
     git \
     ca-certificates \
     sudo \
     gzip \
-# Not available in AL2
-#    run-one \
-#    ripgrep \
     glibc-langpack-en \
     glibc-common \
+    python3-devel \
     findutils \
     which \
+    tar \
     vim && \
     yum clean all
 
