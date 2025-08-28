@@ -1,6 +1,7 @@
 #!/bin/bash
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
+echo "START Starting script"
 
 set -e
 
@@ -10,6 +11,8 @@ if [ $# -eq 0 ]; then
 else
     cmd=( "$@" )
 fi
+
+echo "START cmd set to ${cmd}"
 
 run-hooks () {
     # Source scripts or run executable files in a directory
@@ -37,7 +40,11 @@ run-hooks () {
     echo "${0}: done running hooks in ${1}"
 }
 
+echo "START Ready to call run-hooks"
+
 run-hooks /usr/local/bin/start-notebook.d
+
+echo "START ready to handle flags"
 
 # Handle special flags if we're root
 if [ "$(id -u)" == 0 ] ; then
@@ -148,3 +155,5 @@ else
     echo "Executing the command:" "${cmd[@]}"
     exec "${cmd[@]}"
 fi
+
+echo "START done"
