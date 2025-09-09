@@ -11,7 +11,7 @@ USER root
 
 # Install minimal dependencies for Jupyter
 RUN yum -y update && \
-    yum install -y python3-pip && \
+    yum install -y python3-pip shadow-utils && \
     yum clean all
 
 # Configure environment
