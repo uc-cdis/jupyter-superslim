@@ -33,9 +33,17 @@ RUN python3 -m pip install --no-cache-dir \
     jupyter \
     jupyterlab
 
+
+# Add user's local bin to PATH
+ENV PATH="/home/${NB_USER}/.local/bin:${PATH}"
+
 EXPOSE 8888
 
 WORKDIR "${HOME}"
+
+# Copy startup script
+COPY resources/scripts/jupyter/ /usr/local/bin/
+
 
 # Start Jupyter Lab directly
 CMD ["start-notebook.sh"]
