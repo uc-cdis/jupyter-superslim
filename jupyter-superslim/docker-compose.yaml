@@ -1,6 +1,7 @@
 services:
    webapp:
-      image: "quay.io/cdis/jupyter-superslim:latest"
+      # image: "quay.io/cdis/jupyter-superslim:latest"
+      build: .
       volumes:
          - ./data-volume:/data
          - ./user-volume:/home/jovyan/pd
