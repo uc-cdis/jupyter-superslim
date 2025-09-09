@@ -24,26 +24,32 @@ ENV NB_USER="${NB_USER}" \
     HOME="/home/${NB_USER}"
 
 # Create user
-RUN useradd -l -m -s /bin/bash -N -u "${NB_UID}" "${NB_USER}"
+RUN useradd -m -s /bin/bash -u "${NB_UID}" "${NB_USER}"
 
 USER ${NB_UID}
 
-# Install Jupyter with pip (minimal installation)
-RUN python3 -m pip install --no-cache-dir \
+# Install Jupyter with pip (minimal installation) and ensure it's in PATH
+RUN python3 -m pip install --no-cache-dir --user \
     jupyter \
     jupyterlab
-
 
 # Add user's local bin to PATH
 ENV PATH="/home/${NB_USER}/.local/bin:${PATH}"
 
 EXPOSE 8888
 
-WORKDIR "${HOME}"
-
 # Copy startup script
 COPY resources/scripts/jupyter/ /usr/local/bin/
+# Copy Jupyter configuration
+COPY resources/jupyter_notebook_config.py /etc/jupyter/
 
+# Fix permissions on /etc/jupyter as root
+USER root
+RUN mkdir -p /etc/jupyter && \
+    chown -R ${NB_USER}:${NB_GID} /etc/jupyter
+USER ${NB_UID}
+
+WORKDIR "${HOME}"
 
 # Start Jupyter Lab directly
 CMD ["start-notebook.sh"]
