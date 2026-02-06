@@ -190,6 +190,7 @@ COPY resources/custom.js /home/$NB_USER/.jupyter/custom/
 COPY pyproject.toml pyproject.toml
 COPY poetry.lock poetry.lock
 RUN pip3 install poetry
+RUN poetry config virtualenvs.create false
 RUN poetry install -vv --no-interaction
 
 # Fix permissions on /etc/jupyter as root

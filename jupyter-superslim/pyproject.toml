@@ -30,6 +30,7 @@ jupyterlab-git = "*"
 altair = {extras = ["all"], version = "*"}
 lckr_jupyterlab_variableinspector = "*"
 frictionless = "*"
+jupyter-server-ydoc = "^2.2.1"
 
 
 [build-system]
