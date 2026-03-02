@@ -1,6 +1,7 @@
 name: Build and Push Jupyter Superslim with R Image
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - jupyter-superslim-rkernel/**
