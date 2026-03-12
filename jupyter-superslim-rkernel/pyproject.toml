@@ -12,15 +12,10 @@ package-mode = false
 
 
 [tool.poetry.dependencies]
-python = ">=3.9.2, <3.10"
+python = "^3.13"
 gen3 = "*"
 cdiserrors = "*"
-pandas = "*"
-numpy = "*"
 
-# not a direct dependency, pinned by Snyk to avoid a vulnerability
-tornado = ">=6.5"
-zipp = ">=3.19.1"
 
 # Jupyter plugins and utilities section
 jupyter-lsp = "*"
