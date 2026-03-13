@@ -149,18 +149,9 @@ RUN conda install --quiet --yes -c conda-forge python="${PYTHON_VERSION}" \
     'r-tidyverse' \
     'r-shiny' \
     'r-rmarkdown' \
-    'r-forecast' \
-    'r-rsqlite' \
-    'r-reshape2' \
-    'r-nycflights13' \
-    'r-caret' \
     'r-rcurl' \
-    'r-crayon' \
-    'r-randomforest' \
-    'r-rmysql' \
     'r-gplots' \
     'r-gtools' \
-    'r-catools' \
     'jupyterhub-base' \
     'jupyter_server' \
     && conda clean --all -f -y && \
