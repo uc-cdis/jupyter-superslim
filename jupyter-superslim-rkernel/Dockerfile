@@ -6,7 +6,6 @@ FROM quay.io/cdis/amazonlinux-base:${AZLINUX_BASE_VERSION}
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 LABEL name="jupyter-superslim-base"
 
-
 # Fix DL4006
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -16,13 +15,10 @@ USER root
 # Default values can be overridden at build time
 # (ARGS are in lower case to distinguish them from ENV)
 # Check https://github.com/conda-forge/miniforge/releases
-# Conda version
-ARG conda_version="24.7.1"
-# Miniforge installer patch version
-ARG miniforge_patch_number="2"
-# Package Manager and Python implementation to use (https://github.com/conda-forge/miniforge)
+# Updated to latest Miniforge release (26.1.0-0, released 2026-02-09)
+ARG conda_version="26.1.0"
+ARG miniforge_patch_number="0"
 ARG miniforge_python="Miniforge3"
-# Miniforge archive to install
 ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
 
 
@@ -65,7 +61,7 @@ ENV CONDA_DIR=/opt/conda \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
-    R_BASE_VERSION=4.3.3
+    R_BASE_VERSION=4.5.3
 
 ENV PATH="${CONDA_DIR}/bin:${PATH}" \
     HOME="/home/${NB_USER}" \
@@ -96,7 +92,9 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     fix-permissions "${CONDA_DIR}"
 
 USER ${NB_UID}
-ARG PYTHON_VERSION=3.9
+
+# Updated to Python 3.13
+ARG PYTHON_VERSION=3.13
 
 # Install conda as jovyan and check the sha256 sum provided on the download site
 WORKDIR /tmp
@@ -114,15 +112,18 @@ RUN set -x && \
     wget --quiet "https://github.com/conda-forge/miniforge/releases/download/${miniforge_version}/${miniforge_installer}" && \
     /bin/bash "${miniforge_installer}" -f -b -p "${CONDA_DIR}" && \
     rm "${miniforge_installer}" && \
-    # Conda configuration see https://conda.io/projects/conda/en/latest/configuration.html
+    # NOTE: conda_version pin format changed in 26.x — conda now uses calver (no separate patch number in the package name)
     echo "conda ${CONDA_VERSION}" >> "${CONDA_DIR}/conda-meta/pinned" && \
-    conda update -n base -c defaults conda && \
+    # Use conda-forge channel explicitly (miniforge 26.x no longer hardcodes defaults)
+    conda config --system --add channels conda-forge && \
+    conda config --system --set channel_priority strict && \
+    conda update -n base -c conda-forge conda && \
     conda config --system --set auto_update_conda false && \
     conda config --system --set show_channel_urls true && \
-    if [[ "${PYTHON_VERSION}" != "default" ]]; then conda install --yes python="${PYTHON_VERSION}"; fi && \
+    if [[ "${PYTHON_VERSION}" != "default" ]]; then conda install --yes -c conda-forge python="${PYTHON_VERSION}"; fi && \
     conda list python | grep '^python ' | tr -s ' ' | cut -d ' ' -f 1,2 >> "${CONDA_DIR}/conda-meta/pinned" && \
     conda install --quiet --yes \
-    "conda=${CONDA_VERSION}" \
+    -c conda-forge \
     "python=${PYTHON_VERSION}" \
     'pip' && \
     conda update --all --quiet --yes && \
@@ -135,15 +136,8 @@ RUN set -x && \
 RUN mkdir -p /opt/conda/share/jupyter/lab/settings
 COPY resources/overrides.json /opt/conda/share/jupyter/lab/settings
 
-# Install Jupyter Notebook, Lab, Hub and R packages
-# R packages including IRKernel which gets installed globally.
-# See https://github.com/rocker-org/rocker/blob/master/r-base/Dockerfile
-# Generate a notebook server config
-# Cleanup temporary files
-# Correct permissions
-# Do all this in a single RUN command to avoid duplicating all of the
-# files across image layers when the permissions change
-RUN conda install --quiet --yes python="${PYTHON_VERSION}" \
+# Install Jupyter + R packages
+RUN conda install --quiet --yes -c conda-forge python="${PYTHON_VERSION}" \
     'notebook' \
     'jupyterhub' \
     'jupyterlab' \
