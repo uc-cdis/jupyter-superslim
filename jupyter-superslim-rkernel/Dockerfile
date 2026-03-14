@@ -106,13 +106,13 @@ RUN set -x && \
         "python=${PYTHON_VERSION}" \
         pip \
         jupyterlab \
-        jupyterhub \
         jupyterhub-base \
         jupyter_server \
         rpy2 \
         "r-base=${R_BASE_VERSION}" \
         r-irkernel \
-        r-tidyverse && \
+        r-tidyverse \
+        r-rmarkdown && \
     conda list python | grep '^python ' | tr -s ' ' | cut -d ' ' -f 1,2 >> "${CONDA_DIR}/conda-meta/pinned" && \
     conda clean --all -f -y && \
     rm -rf "/home/${NB_USER}/.cache/yarn" && \
