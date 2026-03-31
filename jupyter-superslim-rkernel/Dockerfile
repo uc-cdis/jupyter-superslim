@@ -105,6 +105,7 @@ RUN set -x && \
     conda install --quiet --yes -c conda-forge \
         "python=${PYTHON_VERSION}" \
         pip \
+        notebook \
         jupyterlab \
         jupyterhub-base \
         jupyter_server \
