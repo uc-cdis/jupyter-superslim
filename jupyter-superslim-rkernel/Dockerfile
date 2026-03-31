@@ -143,6 +143,10 @@ RUN pip install --no-cache-dir poetry && \
 # Fix permissions on /etc/jupyter as root
 USER root
 
+# Extend the existing permissions fix to cover the whole .jupyter tree
+RUN mkdir -p /home/${NB_USER}/.jupyter/lab/workspaces && \
+    chown -R ${NB_UID}:${NB_GID} /home/${NB_USER}/.jupyter
+
 # Prepare upgrade to JupyterLab V3.0 #1205
 RUN sed -re "s/c.NotebookApp/c.ServerApp/g" \
     /etc/jupyter/jupyter_notebook_config.py > /etc/jupyter/jupyter_server_config.py && \
