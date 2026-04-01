@@ -19,6 +19,7 @@ ARG NB_USER="jovyan"
 ARG NB_UID="1010"
 ARG NB_GID="100"
 ARG PYTHON_VERSION=3.13
+ARG R_BASE_VERSION=4.5.3
 
 
 # Install all OS dependencies for notebook server that starts but lacks all
@@ -56,7 +57,6 @@ ENV NB_USER="${NB_USER}" \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
-    R_BASE_VERSION=4.5.3 \
     CONDA_VERSION="${conda_version}" \
     MINIFORGE_VERSION="${miniforge_version}"
 
