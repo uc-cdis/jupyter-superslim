@@ -53,6 +53,9 @@ COPY resources/jupyter_notebook_config.py /etc/jupyter/
 USER root
 RUN mkdir -p /etc/jupyter && \
     chown -R ${NB_USER}:${NB_GID} /etc/jupyter
+# Extend the existing permissions fix to cover the whole .jupyter tree
+RUN mkdir -p /home/${NB_USER}/.jupyter/lab/workspaces && \
+    chown -R ${NB_UID}:${NB_GID} /home/${NB_USER}/.jupyter
 USER ${NB_UID}
 
 WORKDIR "${HOME}"
