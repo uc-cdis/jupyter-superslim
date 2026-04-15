@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "jupyter-superslim-rkernel"
+version = "3.0.0"
+description = "Jupyter Superslim"
+authors = ["CTDS UChicago <cdis@uchicago.edu>"]
+license = "Apache-2.0"
+repository = "https://github.com/uc-cdis/jupyter-superslim"
+include = [
+  "NOTICE",
+]
+package-mode = false
+
+
+[tool.poetry.dependencies]
+python = "^3.13"
+gen3 = "*"
+cdiserrors = "*"
+scikit-learn = "^1.6.0"
+seaborn = "^0.13.2"
+matplotlib = "3.10.8"
+plotly = "^6.0.0"
+itables = "^2.7.2"
+pyreadstat = "1.3.3"
+openpyxl = "3.1.5"
+mystmd = "1.8.3"
+
+# Jupyter plugins and utilities section
+jupyter-lsp = "*"
+jupyterlab-lsp = "*"
+jupyterlab-search-replace = "*"
+jupyterlab-git = "*"
+jupyterlab_myst = "*"
+jupyter-myst-build-proxy = "*"
+jupyter_server_ydoc = "*"
+altair = {extras = ["all"], version = "*"}
+jupyter-archive = "*"
+frictionless = "*"
+
+
+[build-system]
+requires = ["poetry>=2.0.0"]
+build-backend = "poetry.masonry.api"
