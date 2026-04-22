@@ -109,7 +109,7 @@ RUN set -x && \
         jupyterlab \
         jupyterhub-base \
         jupyter_server \
-        nodejs \
+        #nodejs \
         rpy2 \
         "r-base=${R_BASE_VERSION}" \
         r-irkernel \
