@@ -141,6 +141,8 @@ RUN pip install --no-cache-dir poetry && \
     poetry config virtualenvs.create false && \
     poetry install -vv --no-interaction
 
+RUN pip install pygwalker -q
+
 # Fix permissions on /etc/jupyter as root
 USER root
 
