@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "jupyter-superslim-rkernel"
+name = "jupyter-superslim-heal"
 version = "3.0.0"
 description = "Jupyter Superslim"
 authors = ["CTDS UChicago <cdis@uchicago.edu>"]
