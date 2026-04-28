@@ -160,6 +160,8 @@ USER ${NB_UID}
 
 WORKDIR "${HOME}"
 
+COPY heal-welcome.md heal-welcome.md
+
 # Configure container startup
 ENTRYPOINT ["/tini", "-g", "--"]
 CMD ["start-notebook.sh"]
