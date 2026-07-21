@@ -11,14 +11,14 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 USER root
 
-ARG conda_version="26.1.0"
-ARG miniforge_patch_number="0"
+ARG conda_version="26.3.2"
+ARG miniforge_patch_number="3"
 ARG miniforge_python="Miniforge3"
 ARG miniforge_version="${conda_version}-${miniforge_patch_number}"
 ARG NB_USER="jovyan"
 ARG NB_UID="1010"
 ARG NB_GID="100"
-ARG PYTHON_VERSION=3.13
+ARG PYTHON_VERSION=3.14
 ARG R_BASE_VERSION=4.5.3
 
 
@@ -83,8 +83,7 @@ RUN echo "auth requisite pam_deny.so" >> /etc/pam.d/su && \
     mkdir -p "${CONDA_DIR}" && \
     chown "${NB_USER}:${NB_GID}" "${CONDA_DIR}" && \
     chmod g+w /etc/passwd && \
-    fix-permissions "${HOME}" && \
-    fix-permissions "${CONDA_DIR}"
+    fix-permissions "${HOME}"
 
 USER ${NB_UID}
 # Install conda as jovyan and check the sha256 sum provided on the download site

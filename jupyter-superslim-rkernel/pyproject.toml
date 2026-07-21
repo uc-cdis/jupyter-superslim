@@ -12,7 +12,7 @@ package-mode = false
 
 
 [tool.poetry.dependencies]
-python = "^3.13"
+python = "^3.14"
 gen3 = "*"
 cdiserrors = "*"
 
@@ -23,9 +23,7 @@ jupyterlab-lsp = "*"
 jupyterlab-search-replace = "*"
 jupyterlab-git = "*"
 jupyter_server_ydoc = "*"
-altair = {extras = ["all"], version = "*"}
 lckr_jupyterlab_variableinspector = "*"
-frictionless = "*"
 
 
 [build-system]
