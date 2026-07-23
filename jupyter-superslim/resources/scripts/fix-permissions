@@ -18,18 +18,14 @@
 set -e
 
 for d in "$@"; do
+    # Batch-update ownership and permissions ONLY on files that need it
     find "${d}" \
-        ! \( \
-            -group "${NB_GID}" \
-            -a -perm -g+rwX \
-        \) \
-        -exec chgrp "${NB_GID}" {} \; \
-        -exec chmod g+rwX {} \;
-    # setuid, setgid *on directories only*
+        ! \( -group "${NB_GID}" -a -perm -g+rwX \) \
+        -exec chgrp "${NB_GID}" {} + \
+        -exec chmod g+rwX {} +
+
+    # Batch-update setuid/setgid ONLY on directories that need it
     find "${d}" \
-        \( \
-            -type d \
-            -a ! -perm -6000 \
-        \) \
-        -exec chmod +6000 {} \;
+        \( -type d -a ! -perm -6000 \) \
+        -exec chmod +6000 {} +
 done

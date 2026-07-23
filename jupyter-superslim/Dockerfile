@@ -11,8 +11,11 @@ USER root
 
 # Install minimal dependencies for Jupyter
 RUN yum -y update && \
-    yum install -y python3-pip shadow-utils && \
-    yum clean all
+    yum install -y python3.14 python3.14-pip shadow-utils && \
+    yum clean all && \
+    ln -sf /usr/bin/python3.14 /usr/bin/python3 && \
+    ln -sf /usr/bin/pip3.14 /usr/bin/pip3 && \
+    ln -sf /usr/bin/pip3.14 /usr/bin/pip
 
 # Configure environment
 ARG NB_USER="jovyan"
@@ -38,9 +41,9 @@ ENV PATH="/home/${NB_USER}/.local/bin:${PATH}"
 
 COPY pyproject.toml pyproject.toml
 COPY poetry.lock poetry.lock
-RUN pip3 install poetry
-RUN poetry config virtualenvs.create false
-RUN poetry install -vv --no-interaction
+RUN python3 -m pip install --user poetry && \
+    poetry config virtualenvs.create false && \
+    poetry install -vv --no-interaction
 
 EXPOSE 8888
 
