@@ -22,6 +22,10 @@ c.NotebookApp.tornado_settings = {
 # https://github.com/jupyter/notebook/issues/3130
 c.FileContentsManager.delete_to_trash = False
 
+# Allow deleting directories that still have contents. Combined with
+# delete_to_trash = False above, this removes the tree permanently.
+c.FileContentsManager.always_delete_dir = True
+
 # Generate a self-signed certificate
 if "GEN_CERT" in os.environ:
     dir_name = jupyter_data_dir()
