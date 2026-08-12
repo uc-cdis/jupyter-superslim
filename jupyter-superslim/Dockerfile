@@ -10,12 +10,16 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 USER root
 
 # Install minimal dependencies for Jupyter
+# Symlink into /usr/local/bin, which precedes /usr/bin on PATH. Do not overwrite
+# /usr/bin/python3: it is owned by the python3 RPM and dnf hardcodes it in its
+# shebang (`head -1 /usr/bin/dnf-3`), so repointing it breaks yum for anything
+# built on this image. See #69.
 RUN yum -y update && \
     yum install -y python3.14 python3.14-pip shadow-utils && \
     yum clean all && \
-    ln -sf /usr/bin/python3.14 /usr/bin/python3 && \
-    ln -sf /usr/bin/pip3.14 /usr/bin/pip3 && \
-    ln -sf /usr/bin/pip3.14 /usr/bin/pip
+    ln -sf /usr/bin/python3.14 /usr/local/bin/python3 && \
+    ln -sf /usr/bin/pip3.14 /usr/local/bin/pip3 && \
+    ln -sf /usr/bin/pip3.14 /usr/local/bin/pip
 
 # Configure environment
 ARG NB_USER="jovyan"
