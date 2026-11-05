@@ -104,10 +104,7 @@ RUN set -x && \
     conda install --quiet --yes -c conda-forge \
         "python=${PYTHON_VERSION}" \
         pip \
-        notebook \
         jupyterlab \
-        jupyterhub-base \
-        jupyter_server \
         rpy2 \
         "r-base=${R_BASE_VERSION}" \
         r-irkernel \
@@ -128,10 +125,8 @@ EXPOSE 8888
 
 # Copy local files as late as possible to avoid cache busting
 COPY resources/scripts/jupyter/ /usr/local/bin/
-# Currently need to have both jupyter_notebook_config and jupyter_server_config to support classic and lab
+# Converted to jupyter_server_config.py below
 COPY resources/jupyter_notebook_config.py /etc/jupyter/
-# Do not open notebooks in a new tab: https://github.com/jupyter/notebook/issues/4115
-COPY resources/custom.js /home/${NB_USER}/.jupyter/custom/
 
 COPY pyproject.toml pyproject.toml
 COPY poetry.lock poetry.lock

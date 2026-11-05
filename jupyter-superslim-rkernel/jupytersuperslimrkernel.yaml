@@ -7,10 +7,10 @@ services:
       entrypoint:
         - "start-notebook.sh"
       command:
-        - "--JupyterNotebookApp.base_url=/lw-workspace/proxy"
-        - "--JupyterNotebookApp.default_url=/lab"
-        - "--JupyterNotebookApp.password=''"
-        - "--JupyterNotebookApp.token=''"
+        - "--ServerApp.base_url=/lw-workspace/proxy"
+        - "--ServerApp.default_url=/lab"
+        - "--PasswordIdentityProvider.hashed_password=''"
+        - "--IdentityProvider.token=''"
       ports:
          - "8888:8888"
       healthcheck:
